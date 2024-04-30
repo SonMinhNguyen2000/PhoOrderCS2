@@ -1,0 +1,75 @@
+Name: Pho Bo
+Description: Traditional Vietnamese beef noodle soup
+Category: Pho
+Price: 9.99
+Image: phobo.jpg
+Name: Pho Ga
+Description: Chicken noodle soup
+Category: Pho
+Price: 8.99
+Image: phoga.jpg
+Name: Pho Chay
+Description: Vegetarian noodle soup
+Category: Pho
+Price: 7.99
+Image: phochay.jpg
+Name: Bun Bo Hue
+Description: Spicy beef noodle soup from Hue region
+Category: Noodles
+Price: 10.99
+Image: bunbohue.jpg
+Name: Mi Quang
+Description: Central Vietnamese noodle dish with pork and shrimp
+Category: Noodles
+Price: 9.49
+Image: miquang.jpg
+Name: Banh Mi Thit
+Description: Vietnamese sandwich with grilled pork
+Category: Sandwich
+Price: 6.99
+Image: banhmithit.jpg
+Name: Banh Mi Ga
+Description: Vietnamese sandwich with grilled chicken
+Category: Sandwich
+Price: 6.49
+Image: banhmiga.jpg
+Name: Banh Mi Chay
+Description: Vegetarian Vietnamese sandwich
+Category: Sandwich
+Price: 5.99
+Image: banhmichay.jpg
+Name: Banh Mi Bo Kho
+Description: Vietnamese sandwich with beef stew
+Category: Sandwich
+Price: 7.49
+Image: banhmibokho.jpg
+Name: Banh Mi Nem Nuong
+Description: Vietnamese sandwich with grilled pork sausage
+Category: Sandwich
+Price: 7.99
+Image: banhminemnuong.jpg
+Name: Goi Cuon
+Description: Vietnamese fresh spring rolls with shrimp and pork
+Category: Appetizer
+Price: 4.99
+Image: goicuon.jpg
+Name: Nem Ran
+Description: Vietnamese fried spring rolls
+Category: Appetizer
+Price: 5.49
+Image: nemnuong.jpg
+Name: Bo Bia
+Description: Vietnamese fresh spring rolls with Chinese sausage and jicama
+Category: Appetizer
+Price: 4.99
+Image: bobia.jpg
+Name: Cha Gio
+Description: Vietnamese fried spring rolls with pork and mushrooms
+Category: Appetizer
+Price: 5.99
+Image: chagio.jpg
+Name: Canh Ga Chien Mam
+Description: Vietnamese fried chicken wings with fish sauce
+Category: Appetizer
+Price: 6.49
+Image: canhgachienmam.jpg
