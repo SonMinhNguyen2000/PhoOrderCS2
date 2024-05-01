@@ -168,8 +168,8 @@ public class PaymentPane extends VBox{
     }
 
     private boolean isFormFilled() {
-        return validateCardName() ||
-                validateCardNumber() ||
+        return !validateCardName() ||
+                !validateCardNumber() ||
                 validateExpDate() ||
                 validateCvv() ||
                 billingAddress.getText().isEmpty();
