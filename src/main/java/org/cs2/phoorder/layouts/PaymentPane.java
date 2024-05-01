@@ -125,6 +125,7 @@ public class PaymentPane extends VBox{
                         "-fx-font-size: 30;");
         contentBox.getChildren().addAll(
                 infoLabel,
+                cardNameBox,
                 cardNumberBox,
                 expDateNCvvBox,
                 billingAddressBox,
@@ -168,10 +169,10 @@ public class PaymentPane extends VBox{
     }
 
     private boolean isFormFilled() {
-        return validateCardName() ||
-                validateCardNumber() ||
-                validateExpDate() ||
-                validateCvv() ||
+        return !validateCardName() ||
+                !validateCardNumber() ||
+                !validateExpDate() ||
+                !validateCvv() ||
                 billingAddress.getText().isEmpty();
     }
 

@@ -44,7 +44,7 @@ private Order order;
         Label cardNumberLabel = new Label("Card Number: " + payment.getCardNumber());
         Label cardNameLabel = new Label("Card Name: " + payment.getCardName());
         Label expDateLabel = new Label("Expiration Date: " + payment.getExpirationDate());
-        Label totalLabel = new Label("Total: " + order.getTotal());
+        Label totalLabel = new Label(String.format("Total: %.2f", order.getTotal()));
 
         // Create confirmation and cancel buttons
         PButton confirmButton = new PButton("tertiary", "Confirm Order");
@@ -62,10 +62,8 @@ private Order order;
             // Close the confirmation pane
             getScene().getWindow().hide();
         });
-
-        // Add components to the layout
-        getChildren().addAll(
-                titleLabel,
+        VBox confirmInfo = new VBox();
+        confirmInfo.getChildren().addAll(
                 nameLabel,
                 emailLabel,
                 phoneNumberLabel,
@@ -73,6 +71,18 @@ private Order order;
                 cardNumberLabel,
                 cardNameLabel,
                 expDateLabel,
+                totalLabel
+        );
+        confirmInfo.setStyle(
+                "-fx-font-weight: bold;" +
+                "-fx-font-family: 'Inter';" +
+                "-fx-font-size: 18;"
+        );
+        confirmInfo.setAlignment(Pos.TOP_CENTER);
+        // Add components to the layout
+        this.getChildren().addAll(
+                titleLabel,
+                confirmInfo,
                 confirmButton,
                 cancelButton
         );
