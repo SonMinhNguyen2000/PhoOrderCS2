@@ -2,6 +2,7 @@ package org.cs2.phoorder.layouts;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -224,18 +225,12 @@ public class InfoPane extends VBox {
         this.getChildren().add(scrollPane);
     }
 
-
-
     public void onToPaymentClick() {
-        if (firstName.getText().isEmpty() ||
-                lastName.getText().isEmpty() ||
-                email.getText().isEmpty() ||
-                phoneNumber.getText().isEmpty() ||
-                streetNumber.getText().isEmpty() ||
-                city.getText().isEmpty() ||
-                state.getText().isEmpty() ||
-                addShippingInfo.getText().isEmpty()) {
-            System.out.println("Please fill in all fields before proceeding to payment.");
+        if (isFormFilled()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please fill out all the required field!");
+            alert.showAndWait();
         } else {
             Address currAddress = new Address(
                     streetNumber.getText(),
@@ -249,8 +244,28 @@ public class InfoPane extends VBox {
             this.customer.setAddress(currAddress);
             this.customer.setPhone(phoneNumber.getText());
             PhoOrderDriver.root.updateCenter("payment");
-
         }
+    }
+
+    public boolean isFormFilled() {
+                return (!validateName() ||
+                        !validateEmail() ||
+                        streetNumber.getText().isEmpty() ||
+                        city.getText().isEmpty() ||
+                        state.getText().isEmpty());
+    }
+
+    public boolean validateName() {
+        return firstName.getText().matches("^[a-zA-Z ]+$") ||
+                lastName.getText().matches("^[a-zA-Z ]+$");
+    }
+
+    public boolean validateEmail() {
+        return email.getText().matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+    }
+
+    public boolean validatePhone() {
+        return phoneNumber.getText().matches("^[0-9]{10}$");
     }
 
     public void onCancelOrderClick() {
