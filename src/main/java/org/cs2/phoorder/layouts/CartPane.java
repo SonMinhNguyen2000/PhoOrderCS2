@@ -101,7 +101,10 @@ public class CartPane extends VBox {
             totalBox.setAlignment(Pos.CENTER);
 
             PButton checkoutBtn = new PButton("tertiary", "Checkout");
-            this.getChildren().add(totalBox);
+            checkoutBtn.setOnAction(e -> {
+                onCheckoutBtn();
+            });
+            this.getChildren().addAll(totalBox, checkoutBtn);
             this.setSpacing(20);
             this.setAlignment(Pos.TOP_CENTER);
         }
@@ -110,6 +113,10 @@ public class CartPane extends VBox {
     public void onRemoveBtnClick(Item item) {
         PhoOrderDriver.order.removeItem(item);
         PhoOrderDriver.root.updateCenter("cart");
+    }
+
+    public void onCheckoutBtn() {
+        PhoOrderDriver.root.updateCenter("info");
     }
 
     public void onEditBtnClick(Item item) {

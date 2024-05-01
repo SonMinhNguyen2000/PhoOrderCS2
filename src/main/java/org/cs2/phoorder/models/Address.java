@@ -4,19 +4,26 @@ public class Address {
     private String street;
     private String city;
     private String state;
-    private String zip;
+    private String addShippingInfo;
     private String apt = "";
 
     public Address(
             String street,
             String city,
             String state,
-            String zip
+            String addShippingInfo
     ) {
         this.street = street;
         this.city = city;
         this.state = state;
-        this.zip = zip;
+        this.addShippingInfo = addShippingInfo;
+    }
+
+    public Address() {
+        this.street = "";
+        this.city = "";
+        this.state = "";
+        this.addShippingInfo = "";
     }
 
     public String getStreet() {
@@ -51,11 +58,11 @@ public class Address {
         this.state = state;
     }
 
-    public String getZip() {
-        return zip;
+    public String getAddShippingInfo() {
+        return addShippingInfo;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public void setAddShippingInfo(String addShippingInfo) {
+        this.addShippingInfo = addShippingInfo;
     }
 }

@@ -30,9 +30,15 @@ public class RootPane extends BorderPane {
             case "cart":
                 this.setCenter(new CartPane());
                 break;
-//            case "checkout":
-//                this.setCenter(new CheckoutPane());
-//                break;
+            case "info":
+                this.setCenter(new InfoPane());
+                break;
+            case "payment":
+                this.setCenter(new PaymentPane());
+                break;
+            case "confirmation":
+                this.setCenter(new ConfirmationPane());
+                break;
             default:
                 this.setCenter(new MenuPane());
         }
