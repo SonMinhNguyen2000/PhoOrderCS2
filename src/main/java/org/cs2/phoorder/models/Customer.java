@@ -1,26 +1,36 @@
 package org.cs2.phoorder.models;
 
 public class Customer {
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private String phone;
     private Address address;
     private PaymentMethod paymentMethod;
 
     public Customer() {
-        this.name = "";
+        this.firstName = "";
+        this.lastName = "";
         this.email = "";
         this.phone = "";
-        this.address = null;
+        this.address = new Address();
         this.paymentMethod = new PaymentMethod();
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String name) {
+        this.lastName = name;
     }
 
     public String getEmail() {
