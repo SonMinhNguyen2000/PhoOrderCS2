@@ -10,7 +10,7 @@ import javafx.scene.text.Font;
  * extended from JavaFX Text, so it can be used the same
  * default text size to 16px with custom text color
  * @author Son Minh Nguyen(Simon Cao)
- * @version 16/04/2024
+ * @version 5/01/2024
  */
 public class PText extends Text {
 

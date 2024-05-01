@@ -3,7 +3,6 @@ package org.cs2.phoorder.layouts;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -16,10 +15,28 @@ import org.cs2.phoorder.utils.Palette;
 
 import java.util.ArrayList;
 
+/**
+ * CartPane is a VBox that displays the current order in the cart.
+ * It displays the items in the cart, their quantity, price, and total.
+ * It also provides buttons to edit or remove items from the cart.
+ * And a checkout button
+ * If the cart is empty, it displays a message saying so.
+ * @author Son Minh Nguyen (Simon Cao)
+ * @version 5/01/24
+ */
 public class CartPane extends VBox {
+
+    /**
+     * Constructor for CartPane
+     */
     public CartPane() {
+
+        //array of all items in the cart
         ArrayList<Item> items = PhoOrderDriver.order.getItems();
+
         HBox title = new HBox();
+
+        //if the cart is empty, display a message
         if (items.isEmpty()) {
             Heading empty = new Heading("Your current order is empty.");
             empty.setFill(Palette.getColor("black"));
@@ -27,7 +44,7 @@ public class CartPane extends VBox {
             title.setAlignment(Pos.CENTER);
             title.setPadding(new Insets(10));
             this.getChildren().add(title);
-        } else {
+        } else { //if the cart is not empty, display the items in the cart
             Heading heading = new Heading("Your current order");
             title.getChildren().add(heading);
             title.setAlignment(Pos.CENTER);
@@ -110,15 +127,29 @@ public class CartPane extends VBox {
         }
     }
 
+    /**
+     * is called when the remove button is clicked.
+     * It removes the item from the cart and updates the cart and the pane
+     * @param item the item to be removed
+     */
     public void onRemoveBtnClick(Item item) {
         PhoOrderDriver.order.removeItem(item);
         PhoOrderDriver.root.updateCenter("cart");
     }
 
+    /**
+     * is called when the checkout button is clicked.
+     * It updates the center pane to the info pane
+     */
     public void onCheckoutBtn() {
         PhoOrderDriver.root.updateCenter("info");
     }
 
+    /**
+     * is called when the edit button is clicked.
+     * change to the clicked item's pane
+     * @param item the item to be edited
+     */
     public void onEditBtnClick(Item item) {
         PhoOrderDriver.root.currentItem = item;
         PhoOrderDriver.root.isEditingItem = true;

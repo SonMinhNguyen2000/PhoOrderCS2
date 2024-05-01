@@ -7,9 +7,22 @@ import javafx.scene.text.Text;
 import org.cs2.phoorder.PhoOrderDriver;
 import org.cs2.phoorder.models.Item;
 
+/**
+ * MenuItem component to display in the menu pane
+ * contains an image, name, description and order button
+ * extended from JavaFX HBox, so it can be used the same
+ * @author Son Minh Nguyen(Simon Cao)
+ * @version 5/01/2024
+ */
 public class MenuItem extends HBox {
-    private Item item;
 
+    // Item to display
+    private final Item item;
+
+    /**
+     * Constructor
+     * @param item - item to display
+     */
     public MenuItem(Item item) {
         this.item = item;
         ItemImage image = new ItemImage(item.getImage());
@@ -33,6 +46,10 @@ public class MenuItem extends HBox {
         this.getChildren().addAll(imageBox, descriptionBox);
     }
 
+    /**
+     * Handle order click event
+     * set the current item and update the center pane to item pane to display more details
+     */
     public void onBtnClick() {
         PhoOrderDriver.root.currentItem = this.item;
         PhoOrderDriver.root.updateCenter("item");

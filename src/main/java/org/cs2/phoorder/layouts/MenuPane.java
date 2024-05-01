@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import org.cs2.phoorder.PhoOrderDriver;
 import org.cs2.phoorder.components.Heading;
+import org.cs2.phoorder.components.PScrollPane;
 import org.cs2.phoorder.components.Spacer;
 import org.cs2.phoorder.utils.Palette;
 import org.cs2.phoorder.models.Item;
@@ -15,8 +16,8 @@ import org.cs2.phoorder.components.MenuItem;
 import java.util.ArrayList;
 
 public class MenuPane extends VBox {
-    private ChoiceBox<String> categories = new ChoiceBox<String>();
-    private GridPane grid;
+    private final ChoiceBox<String> categories = new ChoiceBox<String>();
+    private final GridPane grid;
 
     public MenuPane() {
         getCategories();
@@ -53,15 +54,7 @@ public class MenuPane extends VBox {
             MenuItem menuItem = new MenuItem(item);
             grid.add(menuItem, i % 2, i / 2);
         }
-
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(grid);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setStyle(
-                "-fx-background-color: transparent;" +
-                "-fx-border-color: transparent;"
-        );
+        PScrollPane scrollPane = new PScrollPane(grid);
         this.getChildren().addAll(
                 subMenu,
                 new Spacer(15),

@@ -5,13 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javafx.scene.image.Image;
 import org.cs2.phoorder.models.Item;
 import org.cs2.phoorder.models.Order;
 
@@ -21,10 +20,18 @@ import java.util.Scanner;
 
 import org.cs2.phoorder.layouts.RootPane;
 
-
+/**
+ * Main class to run the app
+ */
 public class PhoOrderDriver extends Application {
+
+    //current order
     public static final Order order = new Order();
+
+    //a list of all items in the menu
     public static ArrayList<Item> menu = new ArrayList<>();
+
+    //root of the layout hierarchy
     public static RootPane root;
 
     @Override
@@ -33,6 +40,12 @@ public class PhoOrderDriver extends Application {
         setupApp(stage, root);
     }
 
+    /**
+     * Set up the app
+     * setup font, stage, icon, and scene
+     * @param stage - stage of the app
+     * @param root - root of the layout hierarchy
+     */
     public void setupApp(Stage stage, BorderPane root) {
         Font.loadFont(
                 Objects.requireNonNull(getClass().getResourceAsStream(
@@ -52,6 +65,11 @@ public class PhoOrderDriver extends Application {
         stage.getIcons().add(icon);
     }
 
+    /**
+     * Set up the food menu
+     * Read the data from the file and add the items to the menu
+     * @throws FileNotFoundException - file not found
+     */
     public static void setupMenu() throws FileNotFoundException {
         try (Scanner scnr = new Scanner(new FileInputStream("data.txt"))) {
             while (scnr.hasNextLine()) {

@@ -16,19 +16,31 @@ import org.cs2.phoorder.components.ItemImage;
 import org.cs2.phoorder.components.PButton;
 import org.cs2.phoorder.models.Item;
 
+/**
+ * ItemPane is a HBox that displays detail info of an item.
+ * displays the item's name, description, size, price, quantity, special instructions text field, and image.
+ * @author Son Minh Nguyen (Simon Cao)
+ * @version 5/01/24
+ */
 public class ItemPane extends HBox {
-    private Item item;
-    private ChoiceBox<String> sizeBox;
-    private Spinner<Integer> quantitySpinner;
-    private TextArea specialInstructions;
+    private final Item item;
+    private final ChoiceBox<String> size;
+    private final Spinner<Integer> quantitySpinner;
+    private final TextArea specialInstructions;
+    private final Text price;
 
+    /**
+     * Constructor for ItemPane
+     * @param item - item to display
+     * @param isEditing - boolean to determine if the item is being edited in the cart
+     */
     public ItemPane(Item item, boolean isEditing) {
         this.item = item;
 
-        this.sizeBox = new ChoiceBox<String>();
-        this.sizeBox.getItems().addAll("Small", "Medium", "Large");
-        this.sizeBox.setValue("Medium");
-
+        this.size = new ChoiceBox<String>();
+        this.size.getItems().addAll("Small", "Medium", "Large");
+        this.size.setValue("Medium");
+        this.size.setOnAction(e -> onSizeBoxChange());
 
         ItemImage image = new ItemImage(item.getImage());
         image.setFitHeight(200);
@@ -56,8 +68,21 @@ public class ItemPane extends HBox {
         sizeLabel.setStyle(
                 sizeLabel.getStyle() +
                 "-fx-font-size: 20;");
-        sizeBox.getChildren().addAll(sizeLabel, this.sizeBox);
+        sizeBox.getChildren().addAll(sizeLabel, this.size);
         sizeBox.setSpacing(10);
+
+
+        HBox priceBox = new HBox();
+        Heading priceLabel = new Heading("Price: ");
+        price = new Text(String.format("$ %.2f", item.getPrice() * 1.5));
+        price.setStyle(
+                "-fx-font-size: 20;" +
+                "-fx-font-family: 'Inter';" +
+                "-fx-font-style: italic;"
+        );
+        priceBox.getChildren().addAll(priceLabel, price);
+        priceBox.setSpacing(10);
+        priceBox.setAlignment(Pos.CENTER_LEFT);
 
         HBox quantityBox = new HBox();
         Heading quantityLabel = new Heading("Quantity: ");
@@ -87,6 +112,8 @@ public class ItemPane extends HBox {
         contentBox.getChildren().addAll(
                 name,
                 description,
+                sizeBox,
+                priceBox,
                 quantityBox,
                 specialInstructionsBox
                 );
@@ -96,7 +123,7 @@ public class ItemPane extends HBox {
             orderBtn.setOnAction(e -> onOrderBtnClick());
             contentBox.getChildren().add(orderBtn);
         } else {
-            PButton editBtn = new PButton("primary", "Edit");
+            PButton editBtn = new PButton("tertiary", "Save");
             editBtn.setOnAction(e -> onEditBtnClick());
             contentBox.getChildren().add(editBtn);
         }
@@ -109,6 +136,26 @@ public class ItemPane extends HBox {
         this.setPadding(new Insets(50));
     }
 
+    /**
+     * method for changing price based on the size selected
+     */
+    public void onSizeBoxChange() {
+        switch (this.size.getValue()) {
+            case "Small":
+                this.price.setText(String.format("$ %.2f",this.item.getPrice()));
+                break;
+            case "Medium":
+                this.price.setText(String.format("$ %.2f",this.item.getPrice() * 1.5));
+                break;
+            case "Large":
+                this.price.setText(String.format("$ %.2f",this.item.getPrice() * 2));
+                break;
+        }
+    }
+
+    /**
+     * method for adding item to order
+     */
     public void onOrderBtnClick() {
         Item orderItem = new Item(
                 this.item.getName(),
@@ -118,7 +165,7 @@ public class ItemPane extends HBox {
                 this.item.getImage()
         );
 
-        orderItem.setSize(this.sizeBox.getValue());
+        orderItem.setSize(this.size.getValue());
         orderItem.setQuantity(this.quantitySpinner.getValue());
         orderItem.setSpecialInstructions(this.specialInstructions.getText());
         PhoOrderDriver.order.addItem(orderItem);
@@ -129,8 +176,11 @@ public class ItemPane extends HBox {
         alert.showAndWait();
     }
 
+    /**
+     * method for saving changes to item in cart
+     */
     public void onEditBtnClick() {
-        this.item.setSize(this.sizeBox.getValue());
+        this.item.setSize(this.size.getValue());
         this.item.setQuantity(this.quantitySpinner.getValue());
         this.item.setSpecialInstructions(this.specialInstructions.getText());
         PhoOrderDriver.root.updateCenter("cart");

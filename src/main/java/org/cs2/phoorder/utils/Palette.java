@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 /**
  * Custom Color palettes for the app
  * @author Son Minh Nguyen(Simon Cao)
- * @version 16/04/2024
+ * @version 05/01/2024
  */
 public class Palette {
 

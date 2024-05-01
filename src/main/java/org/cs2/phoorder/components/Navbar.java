@@ -2,13 +2,19 @@ package org.cs2.phoorder.components;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import org.cs2.phoorder.PhoOrderDriver;
 import org.cs2.phoorder.utils.Palette;
 
+/**
+ * Custom Navbar component for the app
+ */
 public class Navbar extends HBox {
+
+    /**
+     * Constructor
+     */
     public Navbar() {
         this.setStyle(
                 "-fx-background-color:" + Palette.getHex("primary") + ";" +
@@ -25,7 +31,7 @@ public class Navbar extends HBox {
                 "-fx-text-fill:" + Palette.getHex("base") + ";" +
                 "-fx-font-size: 18;"
         );
-        PButton orderBtn = new PButton("base", "Order");
+        PButton orderBtn = new PButton("base", "\uD83D\uDECDOrder");
         String orderBtnStyle = orderBtn.getStyle();
         orderBtn.setStyle(
                 orderBtnStyle +
@@ -43,10 +49,18 @@ public class Navbar extends HBox {
         this.getChildren().add(orderBtn);
     }
 
+    /**
+     * Handle menu button click event
+     * update the pane to menu pane
+     */
     public void onMenuClick() {
         PhoOrderDriver.root.updateCenter("menu");
     }
 
+    /**
+     * Handle order button click event
+     * update the pane to cart pane
+     */
     public void onOrderClick() {
         PhoOrderDriver.root.updateCenter("cart");
     }

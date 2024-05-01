@@ -3,121 +3,79 @@ package org.cs2.phoorder.layouts;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.cs2.phoorder.PhoOrderDriver;
-import org.cs2.phoorder.components.Heading;
-import org.cs2.phoorder.components.Input;
-import org.cs2.phoorder.components.PButton;
+import org.cs2.phoorder.components.*;
 import org.cs2.phoorder.models.PaymentMethod;
 import org.cs2.phoorder.utils.Palette;
 
+/**
+ * PaymentPane is a VBox that displays a form for the user to enter their payment information.
+ * @author Tram Nguyen
+ * @version 5/01/24
+ */
 public class PaymentPane extends VBox{
-    private PaymentMethod payment;
-    private Input cardNumber;
-    private Input cardName;
-    private Input expDate;
-    private Input cvv;
-    private Input billingAddress;
+    private final PaymentMethod payment;
+    private final InputWithLabel cardNumber;
+    private final InputWithLabel cardName;
+    private final InputWithLabel expDate;
+    private final InputWithLabel cvv;
+    private final InputWithLabel billingAddress;
+    private String error;
 
     public PaymentPane() {
-        int spacingVBox = 10;
         int spacingHBox = 20;
         this.payment = PhoOrderDriver.order.getCustomer().getPaymentMethod();
 
-        VBox cardNumberBox = new VBox();
-        Heading cardNumberLabel = new Heading("Card Number");
-        cardNumberLabel.setStyle(
-                cardNumberLabel.getStyle() +
-                        "-fx-font-size: 16;");
-        this.cardNumber = new Input("Enter your card number");
-        this.cardNumber.setText(payment.getCardNumber());
-        cardNumberBox.getChildren().addAll(
-                cardNumberLabel,
-                this.cardNumber
+        cardName = new InputWithLabel(
+                "Card Name",
+                "Enter your card name"
         );
-        cardNumberBox.setSpacing(spacingVBox);
+        cardName.setText(payment.getCardName());
 
-        VBox cardNameBox = new VBox();
-        Heading cardNameLabel = new Heading("Card Name");
-        cardNameLabel.setStyle(
-                cardNameLabel.getStyle() +
-                        "-fx-font-size: 16;");
-        this.cardName = new Input("Enter your card name");
-        this.cardName.setText(payment.getCardName());
-        cardNameBox.getChildren().addAll(
-                cardNameLabel,
-                this.cardName
+        cardNumber = new InputWithLabel(
+                "Card Number",
+                "Enter your card number"
         );
-        cardNameBox.setSpacing(spacingVBox);
+        cardNumber.setText(payment.getCardNumber());
 
-        VBox expDateBox = new VBox();
-        Heading expDateLabel = new Heading("Expiration Date");
-        expDateLabel.setStyle(
-                expDateLabel.getStyle() +
-                        "-fx-font-size: 16;");
-        this.expDate = new Input("Enter your expiration date");
-        this.expDate.setText(payment.getExpirationDate());
-        expDateBox.getChildren().addAll(
-                expDateLabel,
-                this.expDate
+        expDate = new InputWithLabel(
+                "Expiration Date",
+                "Enter your expiration date"
         );
-        expDateBox.setSpacing(spacingVBox);
+        expDate.setText(payment.getExpirationDate());
 
-        VBox cvvBox = new VBox();
-        Heading cvvLabel = new Heading("CVV");
-        cvvLabel.setStyle(
-                cvvLabel.getStyle() +
-                        "-fx-font-size: 16;");
-        this.cvv = new Input("Enter your CVV");
-        this.cvv.setText(payment.getCvv());
-        cvvBox.getChildren().addAll(
-                cvvLabel,
-                this.cvv
+        cvv = new InputWithLabel(
+                "CVV",
+                "Enter your CVV"
         );
-        cvvBox.setSpacing(spacingVBox);
+        cvv.setText(payment.getCvv());
 
         HBox expDateNCvvBox = new HBox();
         expDateNCvvBox.getChildren().addAll (
-                expDateBox,
-                cvvBox
+                expDate,
+                cvv
         );
         expDateNCvvBox.setSpacing(spacingHBox);
 
-        VBox billingAddressBox = new VBox();
-        Heading billingAddressLabel = new Heading("Billing Address");
-        billingAddressLabel.setStyle(
-                billingAddressLabel.getStyle() +
-                        "-fx-font-size: 16;");
-        this.billingAddress = new Input("Enter your billing address");
-        this.billingAddress.setText(payment.getBillingAddress());
-        billingAddressBox.getChildren().addAll(
-                billingAddressLabel,
-                this.billingAddress
+        billingAddress = new InputWithLabel(
+                "Billing Address",
+                "Enter your billing address"
         );
-        billingAddressBox.setSpacing(spacingVBox);
+        billingAddress.setText(payment.getBillingAddress());
 
-// Buttons initialization
         PButton next = new PButton("tertiary", "Next");
-        next.setOnAction(e -> {
-            onNextClick();
-        });
-
+        next.setOnAction(e -> onNextClick());
         PButton cancelOrder = new PButton("secondary", "Cancel Order");
-        cancelOrder.setOnAction(e -> {
-            onCancelOrderClick();
-        });
-
+        cancelOrder.setOnAction(e -> onCancelOrderClick());
         HBox buttons = new HBox(cancelOrder, next);
         buttons.setSpacing(20);
         buttons.setAlignment(Pos.CENTER);
 
 
         // Layout setup
-        HBox.setHgrow(expDateBox, Priority.ALWAYS);
-        HBox.setHgrow(cvvBox, Priority.ALWAYS);
+        HBox.setHgrow(expDate, Priority.ALWAYS);
+        HBox.setHgrow(cvv, Priority.ALWAYS);
         Heading infoLabel = new Heading("Payment Method");
         VBox contentBox = new VBox();
         infoLabel.setStyle(
@@ -125,10 +83,10 @@ public class PaymentPane extends VBox{
                         "-fx-font-size: 30;");
         contentBox.getChildren().addAll(
                 infoLabel,
-                cardNameBox,
-                cardNumberBox,
+                cardName,
+                cardNumber,
                 expDateNCvvBox,
-                billingAddressBox,
+                billingAddress,
                 buttons
         );
         contentBox.setBackground(new Background(
@@ -137,23 +95,20 @@ public class PaymentPane extends VBox{
                         null,
                         null)
         ));
-        contentBox.setSpacing(20);
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(contentBox);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setStyle(
-                "-fx-background-color: transparent;" +
-                        "-fx-border-color: transparent;"
-        );
+        contentBox.setSpacing(10);
+        PScrollPane scrollPane = new PScrollPane(contentBox);
         this.setAlignment(Pos.TOP_CENTER);
         contentBox.setPadding(new Insets(20, 150, 50, 150));
         this.getChildren().add(scrollPane);
     }
 
-
+    /**
+     * Called when user clicks the "Next" button.
+     * if the form is valid, updates the payment info, redirect to the confirmation pane
+     * if the form is invalid, displays an error message
+     */
     private void onNextClick() {
-        if (!isFormFilled()) {
+        if (isFormValid()) {
             payment.setCardNumber(cardNumber.getText());
             payment.setCardName(cardName.getText());
             payment.setExpirationDate(expDate.getText());
@@ -164,45 +119,74 @@ public class PaymentPane extends VBox{
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Please fill out all fields correctly");
+            alert.setContentText(error);
             alert.showAndWait();
         }
     }
 
-    private boolean isFormFilled() {
-        return !validateCardName() ||
-                !validateCardNumber() ||
-                !validateExpDate() ||
-                !validateCvv() ||
-                billingAddress.getText().isEmpty();
+    /**
+     * Checks if all parts of the form are valid
+     * @return true if the form is valid, false otherwise
+     */
+    private boolean isFormValid() {
+        if (!isValidCardNumber()) {
+            error = "Invalid card number";
+            return false;
+        } else if (!isValidCardName()) {
+            error = "Invalid card name";
+            return false;
+        } else if (!isValidExpDate()) {
+            error = "Invalid expiration date";
+            return false;
+        } else if (!isValidCvv()) {
+            error = "Invalid CVV";
+            return false;
+        } else if (billingAddress.getText().isEmpty()) {
+            error = "Billing address cannot be empty";
+            return false;
+        }
+        return true;
     }
 
-    private boolean validateCardNumber() {
+    /**
+     * Checks if the card number is valid
+     * @return true if the card number is valid, false otherwise
+     */
+    private boolean isValidCardNumber() {
         return cardNumber.getText().matches("^[0-9]{16}$");
     }
 
-    private boolean validateCardName() {
+    /**
+     * Checks if the card name is valid
+     * @return true if the card name is valid, false otherwise
+     */
+    private boolean isValidCardName() {
         return cardName.getText().matches("^[a-zA-Z ]+$");
     }
 
-    private boolean validateExpDate() {
-        return expDate.getText().matches("^(0[1-9]|1[0-2])\\/[0-9]{2}$");
+    /**
+     * Checks if the expiration date is valid
+     * @return true if the expiration date is valid, false otherwise
+     */
+    private boolean isValidExpDate() {
+        return expDate.getText().matches("^(0[1-9]|1[0-2])/[0-9]{2}$");
     }
 
-    private boolean validateCvv() {
+    /**
+     * Checks if the CVV is valid
+     * @return true if the CVV is valid, false otherwise
+     */
+    private boolean isValidCvv() {
         return cvv.getText().matches("^[0-9]{3}$");
     }
 
+    /**
+     * Called when user clicks the "Cancel Order" button.
+     * Clears the order and redirects to the menu pane.
+     */
     private void onCancelOrderClick() {
         PhoOrderDriver.order.clear();
         PhoOrderDriver.root.updateCenter("menu");
-    }
-
-    private void updateInfo(){
-        payment.setCardNumber(cardNumber.getText());
-        payment.setCardName(cardName.getText());
-        payment.setExpirationDate(expDate.getText());
-        payment.setCvv(cvv.getText());
-        payment.setBillingAddress(billingAddress.getText());
     }
 }
 

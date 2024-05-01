@@ -2,34 +2,38 @@ package org.cs2.phoorder.layouts;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.cs2.phoorder.PhoOrderDriver;
+import org.cs2.phoorder.components.Heading;
 import org.cs2.phoorder.components.PButton;
 import org.cs2.phoorder.models.Address;
 import org.cs2.phoorder.models.Customer;
 import org.cs2.phoorder.models.Order;
 import org.cs2.phoorder.models.PaymentMethod;
-import org.cs2.phoorder.utils.Palette;
 
+/**
+ * ConfirmationPane is a VBox that displays the order confirmation information.
+ * It displays the customer's name, email, phone number, address, payment information, and total price of the order.
+ * It also contains buttons to confirm or cancel the order.
+ * @author Tram Nguyen
+ * @version 5/01/24
+ */
 public class ConfirmationPane extends VBox {
-private Customer customer;
-private Address address;
-private PaymentMethod payment;
-private Order order;
     public ConfirmationPane() {
-        order = PhoOrderDriver.order;
-        customer = order.getCustomer();
-        address =  customer.getAddress();
-        payment = customer.getPaymentMethod();
-        //customer.onToPaymentClick();
+        Order order = PhoOrderDriver.order;
+        Customer customer = order.getCustomer();
+        Address address = customer.getAddress();
+        PaymentMethod payment = customer.getPaymentMethod();
         setAlignment(Pos.CENTER);
         setSpacing(20);
         setPadding(new Insets(20));
 
-        Label titleLabel = new Label("Order Confirmation");
-        titleLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold;");
+        Heading titleLabel = new Heading("Order Confirmation");
+        titleLabel.setStyle(
+                titleLabel.getStyle() +
+                "-fx-font-size: 24; "
+        );
 
         // Display customer information
         Label nameLabel = new Label("Name: " + customer.getFirstName() + " " + customer.getLastName());
@@ -44,7 +48,7 @@ private Order order;
         Label cardNumberLabel = new Label("Card Number: " + payment.getCardNumber());
         Label cardNameLabel = new Label("Card Name: " + payment.getCardName());
         Label expDateLabel = new Label("Expiration Date: " + payment.getExpirationDate());
-        Label totalLabel = new Label(String.format("Total: %.2f", order.getTotal()));
+        Label totalLabel = new Label(String.format("Total: $%.2f", order.getTotal()));
 
         // Create confirmation and cancel buttons
         PButton confirmButton = new PButton("tertiary", "Confirm Order");
@@ -79,12 +83,21 @@ private Order order;
                 "-fx-font-size: 18;"
         );
         confirmInfo.setAlignment(Pos.TOP_CENTER);
-        // Add components to the layout
         this.getChildren().addAll(
                 titleLabel,
                 confirmInfo,
                 confirmButton,
                 cancelButton
         );
+    }
+
+    public void onConfirmClick() {
+        PhoOrderDriver.root.updateCenter("menu");
+        PhoOrderDriver.order.clear();
+    }
+
+    public void onCancelClick() {
+        PhoOrderDriver.root.updateCenter("menu");
+        PhoOrderDriver.order.clear();
     }
 }
