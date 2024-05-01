@@ -9,6 +9,7 @@ import org.cs2.phoorder.PhoOrderDriver;
 import org.cs2.phoorder.components.PButton;
 import org.cs2.phoorder.models.Address;
 import org.cs2.phoorder.models.Customer;
+import org.cs2.phoorder.models.Order;
 import org.cs2.phoorder.models.PaymentMethod;
 import org.cs2.phoorder.utils.Palette;
 
@@ -16,9 +17,11 @@ public class ConfirmationPane extends VBox {
 private Customer customer;
 private Address address;
 private PaymentMethod payment;
+private Order order;
     public ConfirmationPane() {
-        customer = PhoOrderDriver.order.getCustomer();
-        address = customer.getAddress();
+        order = PhoOrderDriver.order;
+        customer = order.getCustomer();
+        address =  customer.getAddress();
         payment = customer.getPaymentMethod();
         //customer.onToPaymentClick();
         setAlignment(Pos.CENTER);
@@ -41,6 +44,7 @@ private PaymentMethod payment;
         Label cardNumberLabel = new Label("Card Number: " + payment.getCardNumber());
         Label cardNameLabel = new Label("Card Name: " + payment.getCardName());
         Label expDateLabel = new Label("Expiration Date: " + payment.getExpirationDate());
+        Label totalLabel = new Label(String.format("Total: %.2f", order.getTotal()));
 
         // Create confirmation and cancel buttons
         PButton confirmButton = new PButton("tertiary", "Confirm Order");
@@ -58,10 +62,8 @@ private PaymentMethod payment;
             // Close the confirmation pane
             getScene().getWindow().hide();
         });
-
-        // Add components to the layout
-        getChildren().addAll(
-                titleLabel,
+        VBox confirmInfo = new VBox();
+        confirmInfo.getChildren().addAll(
                 nameLabel,
                 emailLabel,
                 phoneNumberLabel,
@@ -69,6 +71,18 @@ private PaymentMethod payment;
                 cardNumberLabel,
                 cardNameLabel,
                 expDateLabel,
+                totalLabel
+        );
+        confirmInfo.setStyle(
+                "-fx-font-weight: bold;" +
+                "-fx-font-family: 'Inter';" +
+                "-fx-font-size: 18;"
+        );
+        confirmInfo.setAlignment(Pos.TOP_CENTER);
+        // Add components to the layout
+        this.getChildren().addAll(
+                titleLabel,
+                confirmInfo,
                 confirmButton,
                 cancelButton
         );
