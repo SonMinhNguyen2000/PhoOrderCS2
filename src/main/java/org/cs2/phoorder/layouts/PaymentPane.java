@@ -2,6 +2,7 @@ package org.cs2.phoorder.layouts;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -151,12 +152,43 @@ public class PaymentPane extends VBox{
 
 
     private void onNextClick() {
+        if (!isFormFilled()) {
             payment.setCardNumber(cardNumber.getText());
             payment.setCardName(cardName.getText());
             payment.setExpirationDate(expDate.getText());
             payment.setCvv(cvv.getText());
             payment.setBillingAddress(billingAddress.getText());
             PhoOrderDriver.root.updateCenter("confirmation");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please fill out all fields correctly");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean isFormFilled() {
+        return validateCardName() ||
+                validateCardNumber() ||
+                validateExpDate() ||
+                validateCvv() ||
+                billingAddress.getText().isEmpty();
+    }
+
+    private boolean validateCardNumber() {
+        return cardNumber.getText().matches("^[0-9]{16}$");
+    }
+
+    private boolean validateCardName() {
+        return cardName.getText().matches("^[a-zA-Z ]+$");
+    }
+
+    private boolean validateExpDate() {
+        return expDate.getText().matches("^(0[1-9]|1[0-2])\\/[0-9]{2}$");
+    }
+
+    private boolean validateCvv() {
+        return cvv.getText().matches("^[0-9]{3}$");
     }
 
     private void onCancelOrderClick() {
@@ -171,8 +203,5 @@ public class PaymentPane extends VBox{
         payment.setCvv(cvv.getText());
         payment.setBillingAddress(billingAddress.getText());
     }
-
-
-
 }
 
